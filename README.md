@@ -1,4 +1,5 @@
 # Footprinting & Reconnaissance with theHarvester
+![harvester output](harvester.png)
 
 ## Overview
 
