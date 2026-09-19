@@ -260,3 +260,13 @@ This exercise strengthened my practical understanding of **Footprinting, OSINT, 
 **Assessment Type:** OSINT / Passive Reconnaissance
 **Platform:** Kali Linux
 **Primary Evidence:** theHarvester reconnaissance output
+
+## 👤 Author
+
+Ayisire Israel
+
+Cybersecurity Intern 
+
+LinkedIn: https://www.linkedin.com/in/ayisire/
+
+The End
