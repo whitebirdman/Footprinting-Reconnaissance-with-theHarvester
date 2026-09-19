@@ -192,9 +192,9 @@ Therefore, the results represent a **preliminary reconnaissance dataset rather t
 ## 📸 Evidence
 
 The following evidence was captured during the exercise:
-![harvester output](email.png)
+![harvester output](emailblur.png)
 ![harvester output](harvester11.png)
-![harvester output](harvester111.png)
+![harvester output](harvester111blur.png)
 
 1. theHarvester command execution.
 2. Baidu reconnaissance output.
