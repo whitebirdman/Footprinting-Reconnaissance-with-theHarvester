@@ -192,7 +192,7 @@ Therefore, the results represent a **preliminary reconnaissance dataset rather t
 ## 📸 Evidence
 
 The following evidence was captured during the exercise:
-![harvester output](harvester1.png)
+![harvester output](email.png)
 ![harvester output](harvester11.png)
 ![harvester output](harvester111.png)
 
