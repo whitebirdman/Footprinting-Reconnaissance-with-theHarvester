@@ -1,170 +1,262 @@
-# Footprinting & Reconnaissance with theHarvester
+# 🔎 Footprinting & Reconnaissance with theHarvester
 ![harvester output](harvester1.png)
+## 📌 Lab Overview
 
-## Overview
+As part of my **Cybersecurity & Ethical Hacking internship with Networkwalks**, I performed a **Footprinting and Reconnaissance** exercise using **theHarvester 4.10.1** on Kali Linux.
 
-As part of my cybersecurity and ethical hacking lab activities, I performed an **Open-Source Intelligence (OSINT) and passive reconnaissance exercise** using **theHarvester 4.10.1**.
+The exercise focused on **Open-Source Intelligence (OSINT)** and passive reconnaissance to understand how publicly available information can reveal aspects of an organization's digital footprint.
 
-The exercise focused on identifying publicly discoverable information associated with an authorized lab target domain. The assessment examined information such as hosts, IP addresses, autonomous system numbers (ASNs), email addresses, and URLs.
+**Target:** `microsoft.com`
 
-> **Note:** The results documented here are based on the supplied theHarvester output. No exploitation, authentication testing, vulnerability scanning, or independent verification of discovered assets was performed.
+> ⚠️ **Note:** This documentation focuses on reconnaissance methodology and learning outcomes. No exploitation, authentication testing, or vulnerability verification was performed.
 
-## Objective
+---
+
+## 🎯 Objective
 
 The objectives of this exercise were to:
 
-* Understand the use of theHarvester for passive reconnaissance.
+* Perform passive reconnaissance using theHarvester.
 * Identify publicly discoverable hosts and subdomains.
-* Identify IP addresses and ASNs associated with discovered infrastructure.
-* Identify publicly exposed email addresses and URLs.
-* Understand how publicly available information can contribute to an organization's digital footprint.
-* Recognize the limitations of automated OSINT collection.
+* Identify associated IP addresses.
+* Identify autonomous system numbers (ASNs).
+* Identify publicly available email addresses.
+* Identify URLs returned by reconnaissance sources.
+* Understand the security relevance of publicly exposed information.
+* Understand the limitations of automated OSINT tools.
 
-## Tool Used
+---
 
-| Item            | Details                        |
-| --------------- | ------------------------------ |
-| Tool            | theHarvester                   |
-| Version         | 4.10.1                         |
-| Category        | OSINT / Passive Reconnaissance |
-| Platform        | Kali Linux                     |
-| Assessment Type | Passive reconnaissance         |
-| Target          | Authorized lab target          |
+## 🛠️ Tool Used
 
-## Command
+| Tool         | Version | Platform   | Purpose                        |
+| ------------ | ------- | ---------- | ------------------------------ |
+| theHarvester | 4.10.1  | Kali Linux | OSINT & passive reconnaissance |
+
+---
+
+## 💻 Commands Used
+
+### 1. Baidu Search
 
 ```bash
-theHarvester -d <target-domain> -b all
+theHarvester -d microsoft.com -l 1000 -b baidu
 ```
 
-The `-d` option specifies the target domain, while `-b all` instructs the tool to use the available supported data sources.
+**Command breakdown:**
 
-## Reconnaissance Results
+* `-d microsoft.com` → specifies the target domain.
+* `-l 1000` → sets the result limit to 1,000.
+* `-b baidu` → uses Baidu as the information source.
 
-The supplied report recorded the following high-level results:
+### 2. Multi-Source Search
 
-| Finding            | Reported Count |
-| ------------------ | -------------: |
-| Hosts              |          9,978 |
-| IP addresses       |            148 |
-| Autonomous Systems |             10 |
-| Email addresses    |              5 |
-| URLs of interest   |              5 |
-| LinkedIn users     |              0 |
+```bash
+theHarvester -d microsoft.com -l 50 -b all
+```
 
-The reported host count should not be interpreted as the number of unique physical or active servers. The output contained hostname mappings, wildcard entries, and repeated representations that require normalization.
+**Command breakdown:**
 
-## Key Observations
+* `-d microsoft.com` → specifies the target domain.
+* `-l 50` → sets the result limit to 50.
+* `-b all` → attempts to use all available supported sources.
 
-### 1. Host and Subdomain Discovery
+---
 
-TheHarvester returned a substantial number of hostnames associated with the target.
+## 🔍 Reconnaissance Results
 
-The results included naming patterns suggesting different infrastructure roles, including:
+The supplied theHarvester output reported the following:
+
+| Finding            | Result |
+| ------------------ | -----: |
+| Hosts              |  9,978 |
+| IP Addresses       |    148 |
+| Autonomous Systems |     10 |
+| Email Addresses    |      5 |
+| URLs of Interest   |      5 |
+| LinkedIn Users     |      0 |
+
+### Important observation
+
+The reported **9,978 hosts should not be interpreted as 9,978 unique servers**.
+
+The output contained hostname entries, mappings, wildcard records and repeated representations. Proper normalization would be required before treating the results as a unique asset inventory.
+
+---
+
+## 🌐 Information Sources
+
+The multi-source scan attempted reconnaissance through several sources, including:
+
+* Baidu
+* Certspotter
+* DuckDuckGo
+* crt.sh
+* HackerTarget
+* Common Crawl
+* AlienVault OTX
+* RapidDNS
+* URLScan
+* GitLab
+* Wayback Archive
+
+Several integrations were affected by missing or invalid API credentials, including sources such as Shodan, Censys, VirusTotal, GitHub, SecurityTrails, FOFA and LeakIX.
+
+---
+
+## 📊 Key Observations
+
+### 1. Host & Subdomain Discovery
+
+TheHarvester returned a large number of hostnames associated with the target.
+
+The naming patterns included references to:
 
 * Production environments
 * Development environments
 * Testing environments
 * Administrative services
 * Application interfaces
-* Internal naming references
+* Internal infrastructure naming
 
-These names demonstrate how DNS and publicly indexed information can reveal aspects of an organization's external digital footprint.
+This demonstrates how publicly discoverable DNS and indexed information can provide insight into an organization's digital footprint.
 
 ### 2. IP Address Discovery
 
-The assessment reported both IPv4 and IPv6 addresses.
+The scan reported both IPv4 and IPv6 addresses.
 
-These addresses were treated as **candidate infrastructure information** rather than confirmed active assets because the exercise did not independently verify ownership, availability, or current operational status.
+These results provide candidate information about infrastructure associated with the target.
+
+However, the exercise did not independently verify whether each address was active, publicly accessible, or directly controlled by the target.
 
 ### 3. Email Discovery
 
-Five publicly discoverable email addresses were identified in the source report.
+Five publicly discoverable email addresses were identified.
 
-Publicly visible email addresses can potentially provide useful information for social-engineering and phishing scenarios. However, discovering an email address does not demonstrate that an account is compromised or vulnerable.
+Publicly available email addresses may potentially be useful in phishing or social-engineering scenarios.
+
+However, discovering an email address does **not** establish that an account is compromised or vulnerable.
 
 ### 4. ASN Discovery
 
-Ten ASNs were reported by the tool.
+Ten ASNs were identified.
 
-The presence of multiple ASNs illustrates how an organization's publicly visible infrastructure may span multiple network environments. ASN discovery alone does not establish that every identified network is directly owned or operated by the target organization.
+Multiple ASNs can indicate that an organization's externally visible infrastructure is associated with different network environments.
+
+ASN discovery alone does not establish direct ownership of every identified network.
 
 ### 5. URL Discovery
 
-Five URLs of interest were recorded.
+Five URLs of interest were reported.
 
-The URLs included publicly accessible Microsoft-related web and authentication resources. The presence of OAuth-related parameters in one URL provided information about an authentication flow but did not, by itself, demonstrate an authentication vulnerability.
+The results included publicly accessible web and authentication-related resources.
 
-## Security Perspective
+The presence of authentication-related parameters does not, by itself, demonstrate an authentication vulnerability.
 
-The exercise demonstrated how an external observer can collect infrastructure-related information without privileged access.
+---
 
-Potential defensive concerns include:
+## 🛡️ Security Perspective
 
-* Unnecessary exposure of infrastructure naming conventions.
-* Publicly discoverable development or testing references.
-* Identification of administrative service names.
-* Public exposure of organizational email addresses.
-* Difficulty distinguishing internally managed infrastructure from third-party services.
+From an attacker's point of view, publicly available information can assist in building an understanding of an organization's external attack surface.
 
-These observations represent **potential information-exposure concerns**, not confirmed vulnerabilities.
+From a defensive perspective, organizations should consider:
 
-## Limitations
+* Reviewing unnecessary publicly visible infrastructure information.
+* Monitoring exposed DNS records.
+* Properly isolating development and testing environments.
+* Protecting administrative interfaces.
+* Monitoring publicly exposed organizational information.
+* Understanding third-party infrastructure relationships.
 
-The assessment had several limitations:
+These are **potential security considerations**, not confirmed vulnerabilities.
 
-* Some data sources required API credentials that were unavailable or invalid.
-* Some services returned errors or incomplete responses.
-* Discovered assets were not independently verified.
-* No active vulnerability scanning or exploitation was performed.
-* The exact execution date could not be established from the supplied output.
-* The reported host count requires normalization before being treated as a unique asset inventory.
+---
 
-Therefore, the results should be considered a **preliminary reconnaissance dataset rather than a complete security assessment**.
+## ⚠️ Limitations
 
-## Recommendations
+The exercise had several limitations:
 
-From a defensive perspective, organizations can:
+* Some OSINT sources required API credentials that were unavailable or invalid.
+* Some services returned errors or incomplete results.
+* Discovered hosts and IP addresses were not independently verified.
+* No vulnerability scanning was performed.
+* No exploitation was performed.
+* No authentication testing was performed.
+* The exact scan date could not be established from the supplied output.
+* Host results require normalization before being treated as a unique asset inventory.
 
-1. Maintain an accurate inventory of publicly exposed assets.
-2. Review unnecessary DNS records and exposed infrastructure information.
-3. Verify that administrative interfaces have appropriate access controls.
-4. Ensure development and testing environments are properly isolated.
-5. Review third-party infrastructure relationships and responsibilities.
-6. Monitor publicly available information for unintended exposure.
-7. Configure authorized OSINT/API integrations where appropriate for future assessments.
+Therefore, the results represent a **preliminary reconnaissance dataset rather than a complete security assessment**.
 
-## Evidence
+---
 
-The original theHarvester output was retained as supporting evidence.
+## 📸 Evidence
 
-For public documentation, sensitive or unnecessary infrastructure details should be **redacted or blurred** before screenshots are published.
+The following evidence was captured during the exercise:
+![harvester output](harvester1.png)
+![harvester output](harvester11.png)
+![harvester output](harvester111.png)
 
-### Evidence to document
+1. theHarvester command execution.
+2. Baidu reconnaissance output.
+3. Multi-source reconnaissance output.
+4. Summary of discovered information.
+5. Relevant reconnaissance findings.
 
-* theHarvester command
-* Tool/version information
-* Summary of discovered information
-* Relevant result sections
-* API/source limitations
+**Sensitive or unnecessary infrastructure details should be blurred/redacted before public publication.**
 
-## Lessons Learned
+---
 
-This exercise improved my understanding of:
+## 💡 Lessons Learned
 
+This exercise provided practical experience with:
+
+* Open-Source Intelligence (OSINT)
 * Passive reconnaissance
-* OSINT collection
-* DNS and hostname enumeration
-* IP and ASN discovery
+* Domain footprinting
+* Host and subdomain discovery
+* IP enumeration
+* ASN discovery
 * Email enumeration
-* Information exposure
-* Reconnaissance tool limitations
-* The difference between **discovering information and confirming a vulnerability**
+* URL discovery
+* Reconnaissance data interpretation
+* Limitations of automated reconnaissance tools
 
-## Conclusion
+### Key takeaway
 
-The exercise demonstrated theHarvester's ability to collect a substantial amount of publicly discoverable information from multiple OSINT sources.
+> **Reconnaissance information is not the same as a confirmed vulnerability.**
 
-The most important lesson was that reconnaissance findings should be treated carefully. A discovered hostname, IP address, email address, or URL does not automatically represent a vulnerability.
+A hostname, IP address, email address, or URL discovered through OSINT requires further authorized validation before any security weakness can be established.
 
-Further assessment would require normalization and validation of the discovered information, followed by authorized security testing where appropriate.
+---
+
+## 📌 Conclusion
+
+The exercise demonstrated how **theHarvester 4.10.1** can collect publicly available information from multiple OSINT sources.
+
+Using the commands:
+
+```bash
+theHarvester -d microsoft.com -l 1000 -b baidu
+```
+
+and
+
+```bash
+theHarvester -d microsoft.com -l 50 -b all
+```
+
+the exercise produced a substantial collection of reconnaissance information.
+
+The main learning outcome was understanding how publicly available information can contribute to an organization's digital footprint and how reconnaissance findings should be carefully interpreted.
+
+This exercise strengthened my practical understanding of **Footprinting, OSINT, Passive Reconnaissance, and Information Exposure**.
+
+---
+
+## 📚 Reference
+
+**Tool:** theHarvester 4.10.1
+**Target:** microsoft.com
+**Assessment Type:** OSINT / Passive Reconnaissance
+**Platform:** Kali Linux
+**Primary Evidence:** theHarvester reconnaissance output
